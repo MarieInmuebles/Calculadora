@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Calculadora de Metas y Gastos</title>
   <style>
     :root {
@@ -79,7 +79,6 @@
       justify-content: center;
     }
 
-    /* Estilo unificado para los títulos específicos */
     .input-group.label-destacado label,
     .slider-container.label-destacado label {
       font-size: 18px;
@@ -252,19 +251,99 @@
 
     @media (max-width: 480px) {
       .container {
-        padding: 25px;
+        padding: 15px;
+        border-radius: 12px;
       }
-      
-      .sub-expenses {
-        grid-template-columns: 1fr;
+
+      h1 {
+        font-size: 24px;
+        padding-bottom: 15px;
+        margin-bottom: 10px;
       }
-      
+
+      .section {
+        padding: 15px 0;
+        margin: 10px 0;
+      }
+
+      .input-group.meta-total label {
+        font-size: 22px;
+      }
+
       .input-group input[type="number"] {
         width: 90%;
+        max-width: none;
+        padding: 12px 15px;
+        font-size: 16px;
+        margin-bottom: 15px;
       }
-      
+
+      .sub-expenses {
+        grid-template-columns: 1fr;
+        gap: 12px;
+        margin: 15px 0;
+      }
+
+      .sub-expenses > div {
+        padding: 15px;
+        border-radius: 10px;
+      }
+
+      .sub-expenses input {
+        width: 85%;
+        padding: 8px 12px;
+      }
+
+      .slider-container {
+        margin: 15px 0;
+      }
+
+      input[type="range"] {
+        width: 95%;
+        height: 6px;
+      }
+
+      input[type="range"]::-webkit-slider-thumb {
+        width: 20px;
+        height: 20px;
+      }
+
+      .results {
+        padding: 20px;
+        margin: 15px 0;
+      }
+
+      .results p {
+        font-size: 14px;
+        flex-wrap: wrap;
+        text-align: center;
+      }
+
+      .highlight {
+        font-size: 1.1em;
+      }
+
+      footer {
+        font-size: 13px;
+        margin-top: 20px;
+        padding-top: 15px;
+      }
+
+      .input-group.label-destacado label,
+      .slider-container.label-destacado label {
+        font-size: 16px;
+        margin-bottom: 8px;
+      }
+    }
+
+    @media (max-width: 360px) {
+      .input-group input[type="number"] {
+        font-size: 15px;
+        padding: 10px 12px;
+      }
+
       h1 {
-        font-size: 28px;
+        font-size: 22px;
       }
     }
   </style>
