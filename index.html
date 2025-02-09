@@ -12,10 +12,27 @@
       --greige: #D4C8B8;
       --sombra: 0 8px 32px rgba(107, 79, 79, 0.1);
       --borde: 1px solid rgba(107, 79, 79, 0.1);
-      --degradado: linear-gradient(135deg, #F5EEE6 0%, #E8D7C1 100%);
+      --degradado: linear-gradient(135deg, #F5EEE6, #E8D7C1, #F5EEE6);
       --fondo: rgba(255, 255, 255, 0.95);
       --texto: #6B4F4F;
       --fondo-secundario: #E8C8C8;
+    }
+
+    /* Background animation */
+    @keyframes gradientAnimation {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Remove arrows from input type number */
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    input[type=number] {
+      -moz-appearance: textfield;
     }
 
     @keyframes entradaSuave {
@@ -23,11 +40,18 @@
       100% { opacity: 1; transform: translateY(0); }
     }
 
-    body {
+    /* Global font-family for all text elements set to Poppins */
+    * {
       font-family: 'Poppins', sans-serif;
+    }
+
+    body {
       margin: 0;
       padding: 20px;
       background: var(--degradado);
+      background-size: 400% 400%;
+      animation: gradientAnimation 15s ease infinite;
+      transition: background 1s ease, color 1s ease;
       min-height: 100vh;
       display: flex;
       justify-content: center;
@@ -46,7 +70,8 @@
       position: relative;
       backdrop-filter: blur(10px);
       border: 1px solid var(--greige);
-      transition: transform 0.3s ease;
+      border-bottom: none;
+      transition: transform 0.3s ease, background 1s ease;
     }
 
     .container:hover {
@@ -64,6 +89,13 @@
       letter-spacing: -0.5px;
     }
 
+    h2 {
+      margin: 0 0 20px;
+      font-size: 24px;
+      color: var(--chocolate);
+      text-align: center;
+    }
+
     .section {
       padding: 25px 0;
       border-bottom: var(--borde);
@@ -71,7 +103,6 @@
       flex-direction: column;
       justify-content: center;
       transition: all 0.3s ease;
-      margin: 15px 0;
     }
 
     .input-group {
@@ -82,8 +113,9 @@
       flex-direction: column;
       justify-content: center;
     }
-
-    .input-group.label-destacado label,
+    
+    /* Bold labels */
+    .label-destacado label,
     .slider-container.label-destacado label {
       font-size: 18px;
       font-weight: 700;
@@ -91,7 +123,8 @@
       margin: 0 0 12px 0;
       letter-spacing: -0.3px;
     }
-
+    
+    /* Meta total label */
     .input-group.meta-total label {
       font-size: 26px;
       font-weight: 700;
@@ -99,10 +132,23 @@
       color: var(--terracota);
       letter-spacing: -0.5px;
     }
-
-    .input-group input[type="number"] {
+    
+    /* Style for meta total input: bold and a bit larger */
+    .input-group.meta-total input {
+      font-weight: bold;
+      font-size: 1.3em;
+    }
+    
+    /* Normal labels */
+    .normal-label label {
+      font-weight: normal;
+      margin-bottom: 5px;
+    }
+    
+    .input-group input[type="number"],
+    .input-group input[type="text"] {
       width: 75%;
-      max-width: 240px;
+      max-width: 200px;
       padding: 16px 20px;
       border: 2px solid var(--greige);
       border-radius: 12px;
@@ -110,17 +156,71 @@
       margin: 0 auto 20px;
       display: block;
       text-align: center;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: all 0.3s ease;
       background: rgba(255, 255, 255, 0.9);
       color: var(--texto);
     }
 
-    .input-group input[type="number"]:hover {
+    /* Operation row for Ingresos */
+    .operation-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid var(--greige);
+      border-radius: 12px;
+      padding: 20px;
+      flex-wrap: wrap;
+    }
+    
+    .left-column, .right-column {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+    }
+    
+    .profit-display {
+      text-align: center;
+      width: 100%;
+    }
+    
+    .profit-display .profit-value {
+      font-size: 3.5em;
+      font-weight: bold;
+      color: var(--terracota);
+      margin: 0;
+    }
+    
+    .profit-display .profit-label {
+      font-size: 0.8em;
+      color: var(--chocolate);
+      margin: 0;
+    }
+    
+    .operation-inputs {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: center;
+    }
+    
+    .operation-inputs .input-group input[type="number"] {
+      width: 100%;
+      max-width: 200px;
+    }
+
+    .input-group input[type="number"]:hover,
+    .input-group input[type="text"]:hover {
       border-color: var(--terracota);
       box-shadow: 0 4px 15px rgba(199, 121, 94, 0.15);
     }
 
-    .input-group input[type="number"]:focus {
+    .input-group input[type="number"]:focus,
+    .input-group input[type="text"]:focus {
       outline: none;
       border-color: var(--terracota);
       box-shadow: 0 4px 20px rgba(199, 121, 94, 0.25);
@@ -133,7 +233,7 @@
       margin: 25px 0;
     }
 
-    .sub-expenses > div {
+    .sub-expenses > div, .custom-expense {
       background: var(--fondo-secundario);
       padding: 20px;
       border-radius: 14px;
@@ -143,20 +243,23 @@
       flex-direction: column;
       justify-content: center;
       transition: all 0.3s ease;
+      position: relative;
     }
 
-    .sub-expenses > div:hover {
+    .sub-expenses > div:hover, .custom-expense:hover {
       background: rgba(232, 200, 200, 0.8);
       transform: translateY(-3px);
     }
 
-    .sub-expenses label {
-      font-weight: 600;
+    /* Expense titles */
+    .sub-expenses label, .custom-expense label {
+      font-weight: bold;
       color: var(--chocolate);
       margin-bottom: 8px;
+      font-size: 16px;
     }
 
-    .sub-expenses input {
+    .sub-expenses input, .custom-expense input {
       width: 80%;
       padding: 10px 15px;
       border: 1px solid var(--greige);
@@ -165,7 +268,64 @@
       margin: 8px auto 0;
       text-align: center;
       transition: all 0.3s ease;
-      color: #424242; /* Cambiado a gris oscuro */
+      color: #424242;
+    }
+
+    /* Custom expense name style */
+    .custom-expense .expense-name {
+      background: var(--fondo-secundario);
+      color: var(--chocolate);
+      width: 80%;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: bold;
+      margin: 8px auto 0;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+
+    .custom-expense .expense-name:focus {
+      outline: none;
+      border: none;
+    }
+
+    /* Delete Button */
+    .delete-btn {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      background: transparent;
+      border: none;
+      font-size: 16px;
+      font-weight: bold;
+      color: var(--terracota);
+      cursor: pointer;
+      transition: color 0.3s ease;
+    }
+
+    .delete-btn:hover {
+      color: #b15b47;
+    }
+
+    .btn-add-custom {
+      display: block;
+      width: 80%;
+      max-width: 240px;
+      margin: 20px auto;
+      padding: 12px;
+      background: var(--terracota);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .btn-add-custom:hover {
+      background: #b15b47;
     }
 
     .slider-container {
@@ -233,50 +393,38 @@
     }
 
     .insufficient {
-      color: #A05252;
-      animation: parpadeo 1.5s infinite;
+      color: red;
     }
 
     .sufficient {
-      color: var(--terracota);
-      animation: latido 1.5s infinite;
+      color: green;
     }
-
-    @keyframes parpadeo {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.5; }
-    }
-
-    @keyframes latido {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-      100% { transform: scale(1); }
-    }
-
+    
     @media (max-width: 480px) {
       .container {
         padding: 25px;
       }
-      
       .sub-expenses {
         grid-template-columns: 1fr;
       }
-      
-      .input-group input[type="number"] {
+      .input-group input[type="number"],
+      .input-group input[type="text"] {
         width: 90%;
       }
-      
       h1 {
         font-size: 28px;
+      }
+      .operation-row {
+        flex-direction: column;
       }
     }
 
     /* Modo Oscuro */
     body.dark-mode {
-      --degradado: linear-gradient(135deg, #3E2723 0%, #1C2833 100%); /* Cambiado a marrón oscuro */
-      --fondo: rgba(62, 39, 35, 0.95); /* Cambiado a marrón oscuro */
+      --degradado: linear-gradient(135deg, #3E2723, #1C2833, #3E2723);
+      --fondo: rgba(62, 39, 35, 0.95);
       --texto: #ECF0F1;
-      --fondo-secundario: #34495E;
+      --fondo-secundario: #542e25;
       --chocolate: #ECF0F1;
       --terracota: #E67E22;
       --greige: #566573;
@@ -287,75 +435,73 @@
     .dark-mode .container {
       background: var(--fondo);
       border: 1px solid var(--greige);
+      border-bottom: none;
     }
 
-    .dark-mode .input-group input[type="number"] {
-      background: rgba(62, 39, 35, 0.9); /* Cambiado a marrón oscuro */
+    .dark-mode .input-group input[type="number"],
+    .dark-mode .input-group input[type="text"] {
+      background: rgba(255, 255, 255, 0.9);
       color: var(--texto);
     }
 
     .dark-mode .sub-expenses > div {
-      background: var(--fondo-secundario);
+      background: #542e25;
       border: 1px solid var(--greige);
     }
-
-    .dark-mode .results {
-      background: var(--fondo-secundario);
+    .dark-mode .custom-expense {
+      background: #542e25;
+      border: none;
     }
-
     .dark-mode footer {
       color: var(--texto);
+      border-top: 2px solid var(--greige);
     }
 
+    /* Dark/Light Mode Toggle Button */
     .dark-mode-toggle {
       position: fixed;
       top: 20px;
       right: 20px;
-      background: var(--terracota);
+      background: linear-gradient(135deg, var(--terracota), #f08c6e);
       border: none;
       border-radius: 50%;
-      width: 40px;
-      height: 40px;
+      width: 50px;
+      height: 50px;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-      transition: all 0.3s ease;
+      transition: transform 0.3s ease, background 0.3s ease;
+      font-size: 24px;
+      color: #fff;
     }
 
     .dark-mode-toggle:hover {
       transform: scale(1.1);
     }
-
-    .dark-mode-toggle img {
-      width: 20px;
-      height: 20px;
-    }
   </style>
 </head>
 <body>
-  <button class="dark-mode-toggle" onclick="toggleDarkMode()">
-    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjZmZmZmZmIj48cGF0aCBkPSJNMCAwaDI0djI0SDB6IiBmaWxsPSJub25lIi8+PHBhdGggZD0iTTEwIDJjLTEuODIuMDItMy41MyAuNzgtNC45MSAxLjk5bC0uMDctLjA3LTEuNDEgMS40MSAxOC4zNyAxOC4zNyAxLjQxLTEuNDEtLjA3LS4wN0MyMS4yMiAxNy41MyAyMiAxNS44MiAyMiAxNGMwLTUuNTItNC40OC0xMC0xMC0xMHptMCAyYzQuNDEgMCA4IDMuNTkgOCA4IDAgMS4xLS4yMyAyLjE4LS42NSAzLjE1bC0xLjQ1LTEuNDVjLjM3LS44MS41OS0xLjcuNTktMi43IDAtMy4zMS0yLjY5LTYtNi02LTEgMC0xLjg5IC4yMi0yLjcgLjU5bC0xLjQ1LTEuNDVDNy44MiA0LjIzIDguOSA0IDEwIDR6bS0uOTUgOC4wNWMuMDItLjE2LjA1LS4zMi4wNS0uNDkgMC0xLjEtLjktMi0yLTItLjE3IDAtLjMzLjAzLS40OS4wNWwuNDQuNDR6bS0yLjk3IDIuOTdjLS4wMi4xNi0uMDUuMzItLjA1LjQ5IDAgMS4xLjkgMiAyIDIgLjE3IDAgLjMzLS4wMy40OS0uMDVsLS40NC0uNDR6TTIgMTJjMC0xLjgyLjc4LTMuNTMgMS45OS00LjkxbC0uMDctLjA3LTEuNDEgMS40MSAxOC4zNyAxOC4zNyAxLjQxLTEuNDEtLjA3LS4wN0MyLjE3IDIwLjQ3IDAgMTcuMzggMCAxNGMwLTUuNTIgNC40OC0xMCAxMC0xMHMxMCA0LjQ4IDEwIDEwYzAgMy4zOC0yLjE3IDYuNDctNS4yMyA3LjY1bC0xLjQ1LTEuNDVDMTcuMjIgMTcuNTMgMTggMTUuODIgMTggMTRjMC00LjQxLTMuNTktOC04LThzLTggMy41OS04IDhjMCAxLjgyLjc4IDMuNTMgMS45OSA0LjkxbC0uMDcuMDctMS40MS0xLjQxIDEuNDEtMS40MS4wNy4wN0MyLjE3IDcuNTMgMCAxMC42MiAwIDE0YzAgNS41MiA0LjQ4IDEwIDEwIDEwczEwLTQuNDggMTAtMTBjMC0zLjM4LTIuMTctNi40Ny01LjIzLTcuNjVsMS40NSAxLjQ1QzIuMTcgMTAuNDcgMCA3LjM4IDAgNHoiLz48L3N2Zz4=" alt="Modo Oscuro">
-  </button>
-
+  <button class="dark-mode-toggle" onclick="toggleDarkMode()">☀️</button>
   <div id="content" class="container">
     <h1>Calculadora de Metas y Gastos</h1>
 
     <div class="section">
       <div class="input-group meta-total">
         <label for="totalAmount">Meta total ($)</label>
-        <input type="number" id="totalAmount" value="20000" step="0.01">
+        <!-- Default value set to 25000 with bold and larger text -->
+        <input type="number" id="totalAmount" value="25000" step="0.01">
       </div>
     </div>
 
     <div class="section">
       <div class="input-group label-destacado">
         <label for="monthlyExpenses">Gastos mensuales ($)</label>
-        <input type="number" id="monthlyExpenses" readonly>
+        <input type="number" id="monthlyExpenses" value="0" readonly>
       </div>
       
-      <div class="sub-expenses">
+      <div class="sub-expenses" id="expensesContainer">
         <div>
           <label>Alquiler</label>
           <input type="number" id="rent" value="0" step="0.01">
@@ -369,34 +515,35 @@
           <input type="number" id="services" value="0" step="0.01">
         </div>
         <div>
-          <label>Educación</label>
-          <input type="number" id="education" value="0" step="0.01">
-        </div>
-        <div>
           <label>Entretenimiento</label>
           <input type="number" id="entertainment" value="0" step="0.01">
         </div>
-        <div>
-          <label>Otros</label>
-          <input type="number" id="others" value="0" step="0.01">
-        </div>
       </div>
+      <button class="btn-add-custom" id="addCustomExpense">Agregar gasto personalizado</button>
     </div>
 
+    <!-- Operation row for Ingresos section -->
     <div class="section">
-      <div class="input-group label-destacado">
-        <label for="profitPerOperation">Ganancia por operación ($)</label>
-        <input type="number" id="profitPerOperation" value="0" step="0.01" readonly>
-      </div>
-
-      <div class="input-group">
-        <label for="cost">Costo del producto ($)</label>
-        <input type="number" id="cost" value="0" step="0.01">
-      </div>
-
-      <div class="input-group">
-        <label for="price">Precio de venta ($)</label>
-        <input type="number" id="price" value="0" step="0.01">
+      <h2>Ingresos</h2>
+      <div class="operation-row">
+        <div class="left-column">
+          <div class="profit-display">
+            <div id="profitDisplay" class="profit-value">0$</div>
+            <div class="profit-label">Ganancia por operación</div>
+          </div>
+        </div>
+        <div class="right-column">
+          <div class="operation-inputs">
+            <div class="input-group normal-label">
+              <label for="cost">Costo del producto ($)</label>
+              <input type="number" id="cost" value="0" step="0.01">
+            </div>
+            <div class="input-group normal-label">
+              <label for="price">Precio de venta ($)</label>
+              <input type="number" id="price" value="0" step="0.01">
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -412,7 +559,10 @@
 
     <div class="section">
       <div class="results">
-        <p>Estado de tus operaciones para gastos: <span id="expenseStatus" class="insufficient">❌ Insuficiente</span></p>
+        <p>
+          Estado de tus operaciones para gastos: 
+          <span id="expenseStatus" class="insufficient">❌ Insuficiente</span>
+        </p>
         <p>Ganancia sobrante mensual: $<span id="monthlyProfit">0</span></p>
         <p>Tiempo estimado para la meta:</p>
         <ul style="list-style: none; padding: 0;">
@@ -431,7 +581,7 @@
     const elements = {
       totalAmount: document.getElementById('totalAmount'),
       monthlyExpenses: document.getElementById('monthlyExpenses'),
-      profitPerOperation: document.getElementById('profitPerOperation'),
+      profitDisplay: document.getElementById('profitDisplay'),
       cost: document.getElementById('cost'),
       price: document.getElementById('price'),
       operationsPerMonth: document.getElementById('operationsPerMonth'),
@@ -439,38 +589,131 @@
       expenseStatus: document.getElementById('expenseStatus'),
       monthlyProfit: document.getElementById('monthlyProfit'),
       monthsNeeded: document.getElementById('monthsNeeded'),
-      yearsNeeded: document.getElementById('yearsNeeded')
+      yearsNeeded: document.getElementById('yearsNeeded'),
+      expensesContainer: document.getElementById('expensesContainer'),
+      addCustomExpenseBtn: document.getElementById('addCustomExpense')
     };
 
     let expenses = {
-      rent: 0, food: 0, services: 0,
-      education: 0, entertainment: 0, others: 0
+      rent: 0,
+      food: 0,
+      services: 0,
+      entertainment: 0
     };
 
-    const animateElement = (element, animation) => {
-      element.style.animation = `${animation} 0.4s ease`;
-      setTimeout(() => element.style.animation = '', 400);
+    const saveCustomExpenses = () => {
+      const customExpenses = [];
+      document.querySelectorAll('.custom-expense').forEach(expenseEl => {
+        const nameInput = expenseEl.querySelector('.expense-name');
+        const amountInput = expenseEl.querySelector('.expense-amount');
+        customExpenses.push({
+          name: nameInput.value,
+          amount: amountInput.value
+        });
+      });
+      localStorage.setItem('customExpenses', JSON.stringify(customExpenses));
+    };
+
+    const loadCustomExpenses = () => {
+      const data = localStorage.getItem('customExpenses');
+      if (data) {
+        const customExpenses = JSON.parse(data);
+        customExpenses.forEach(expense => {
+          createCustomExpense(expense.name, expense.amount);
+        });
+      }
+    };
+
+    const removeCustomExpense = (expenseDiv) => {
+      expenseDiv.remove();
+      saveCustomExpenses();
+      updateExpenses();
+    };
+
+    const createCustomExpense = (nameVal = '', amountVal = '0') => {
+      const customDiv = document.createElement('div');
+      customDiv.classList.add('custom-expense');
+
+      const deleteBtn = document.createElement('button');
+      deleteBtn.textContent = '×';
+      deleteBtn.classList.add('delete-btn');
+      deleteBtn.addEventListener('click', () => {
+        removeCustomExpense(customDiv);
+      });
+      customDiv.appendChild(deleteBtn);
+
+      const nameInput = document.createElement('input');
+      nameInput.type = 'text';
+      nameInput.placeholder = 'Nombre del gasto';
+      // For the expense name inputs, we leave the value as empty by default so the placeholder is visible.
+      nameInput.value = nameVal; 
+      nameInput.classList.add('expense-name');
+
+      const amountInput = document.createElement('input');
+      amountInput.type = 'number';
+      amountInput.value = amountVal;
+      amountInput.step = '0.01';
+      amountInput.classList.add('expense-amount');
+
+      customDiv.appendChild(nameInput);
+      customDiv.appendChild(amountInput);
+      elements.expensesContainer.appendChild(customDiv);
+
+      nameInput.addEventListener('input', () => {
+        saveCustomExpenses();
+        updateExpenses();
+      });
+      amountInput.addEventListener('input', () => {
+        updateExpenses();
+        saveCustomExpenses();
+      });
+
+      // Attach focus and blur events for custom expense input fields.
+      // For nameInput, we do not reset to a default value so the placeholder "Nombre del gasto" remains when empty.
+      nameInput.addEventListener('focus', function() {
+        // Do nothing to preserve the placeholder functionality.
+      });
+      nameInput.addEventListener('blur', function() {
+        // Leave the field empty if nothing is entered.
+      });
+
+      // For the amountInput, we keep the behavior: if empty, set to "0".
+      amountInput.addEventListener('focus', function() {
+        if (this.value === "0") {
+          this.value = "";
+        }
+      });
+      amountInput.addEventListener('blur', function() {
+        if (this.value.trim() === "") {
+          this.value = "0";
+        }
+      });
     };
 
     const updateExpenses = () => {
-      const totalExpenses = Object.values(expenses).reduce((sum, v) => sum + (+v || 0), 0);
-      elements.monthlyExpenses.value = totalExpenses;
+      let staticTotal = Object.values(expenses).reduce((sum, v) => sum + (+v || 0), 0);
+      let customTotal = 0;
+      document.querySelectorAll('.custom-expense .expense-amount').forEach(input => {
+        customTotal += parseFloat(input.value) || 0;
+      });
+      elements.monthlyExpenses.value = staticTotal + customTotal;
       updateResults();
     };
 
     const updateResults = () => {
       const totalAmount = +elements.totalAmount.value || 0;
       const monthlyExpenses = +elements.monthlyExpenses.value || 0;
-      const profit = +elements.profitPerOperation.value || 0;
       const operations = +elements.operationsPerMonth.value;
+      const profit = +elements.profitDisplay.textContent.replace('$','') || 0;
       const monthlyProfitValue = profit * operations - monthlyExpenses;
-
       elements.monthlyProfit.textContent = monthlyProfitValue.toFixed(2);
 
       if (monthlyProfitValue > 0) {
         const months = totalAmount / monthlyProfitValue;
-        elements.monthsNeeded.textContent = Math.ceil(months);
-        elements.yearsNeeded.textContent = (months / 12).toFixed(2);
+        const monthsRounded = Math.ceil(months);
+        const years = monthsRounded / 12;
+        elements.monthsNeeded.textContent = monthsRounded;
+        elements.yearsNeeded.textContent = years.toFixed(2);
         elements.expenseStatus.classList.replace('insufficient', 'sufficient');
         elements.expenseStatus.textContent = '✅ Suficiente';
       } else {
@@ -479,52 +722,77 @@
         elements.expenseStatus.classList.replace('sufficient', 'insufficient');
         elements.expenseStatus.textContent = '❌ Insuficiente';
       }
-      animateElement(elements.results, 'entradaSuave');
     };
 
     const updateProfit = () => {
-      const profit = (+elements.price.value || 0) - (+elements.cost.value || 0);
-      elements.profitPerOperation.value = profit.toFixed(2);
+      const cost = +elements.cost.value || 0;
+      const price = +elements.price.value || 0;
+      const profit = price - cost;
+      elements.profitDisplay.textContent = profit.toFixed(2) + '$';
       updateResults();
     };
 
     elements.operationsPerMonth.addEventListener('input', () => {
       elements.operationsLabel.textContent = elements.operationsPerMonth.value;
-      animateElement(elements.operationsLabel, 'latido');
       updateResults();
     });
 
     Object.keys(expenses).forEach(key => {
       document.getElementById(key).addEventListener('input', (e) => {
         expenses[key] = e.target.value;
-        animateElement(e.target.parentElement, 'latido');
         updateExpenses();
       });
     });
 
     ['cost', 'price'].forEach(id => {
       document.getElementById(id).addEventListener('input', () => {
-        animateElement(elements.profitPerOperation, 'latido');
         updateProfit();
       });
     });
 
-    const toggleDarkMode = () => {
+    elements.addCustomExpenseBtn.addEventListener('click', () => {
+      createCustomExpense();
+      saveCustomExpenses();
+    });
+
+    loadCustomExpenses();
+    updateExpenses();
+    updateProfit();
+
+    // Attach focus/blur events for all other editable input fields (excluding readonly)
+    document.querySelectorAll('input:not([readonly])').forEach(input => {
+      // Skip custom expense name inputs since they already have custom focus/blur handling.
+      if (input.classList.contains('expense-name')) return;
+      input.addEventListener('focus', function() {
+        if (this.value === "0") {
+          this.value = "";
+        }
+      });
+      input.addEventListener('blur', function() {
+        if (this.value.trim() === "") {
+          this.value = "0";
+        }
+      });
+    });
+
+    function toggleDarkMode() {
       document.body.classList.toggle('dark-mode');
       const isDarkMode = document.body.classList.contains('dark-mode');
       localStorage.setItem('darkMode', isDarkMode);
-    };
+      document.querySelector('.dark-mode-toggle').textContent = isDarkMode ? '🌙' : '☀️';
+    }
 
-    const loadDarkMode = () => {
+    function loadDarkMode() {
       const isDarkMode = localStorage.getItem('darkMode') === 'true';
       if (isDarkMode) {
         document.body.classList.add('dark-mode');
+        document.querySelector('.dark-mode-toggle').textContent = '🌙';
+      } else {
+        document.querySelector('.dark-mode-toggle').textContent = '☀️';
       }
-    };
+    }
 
     loadDarkMode();
-    updateExpenses();
-    updateProfit();
   </script>
 </body>
 </html>
