@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Calculadora de Metas y Gastos</title>
   <style>
     :root {
@@ -13,6 +13,9 @@
       --sombra: 0 8px 32px rgba(107, 79, 79, 0.1);
       --borde: 1px solid rgba(107, 79, 79, 0.1);
       --degradado: linear-gradient(135deg, #F5EEE6 0%, #E8D7C1 100%);
+      --fondo: rgba(255, 255, 255, 0.95);
+      --texto: #6B4F4F;
+      --fondo-secundario: #E8C8C8;
     }
 
     @keyframes entradaSuave {
@@ -30,10 +33,11 @@
       justify-content: center;
       align-items: center;
       animation: entradaSuave 0.6s ease-out;
+      color: var(--texto);
     }
 
     .container {
-      background: rgba(255, 255, 255, 0.95);
+      background: var(--fondo);
       border-radius: 24px;
       box-shadow: var(--sombra);
       width: 95%;
@@ -108,7 +112,7 @@
       text-align: center;
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       background: rgba(255, 255, 255, 0.9);
-      color: var(--chocolate);
+      color: var(--texto);
     }
 
     .input-group input[type="number"]:hover {
@@ -130,7 +134,7 @@
     }
 
     .sub-expenses > div {
-      background: var(--rosado);
+      background: var(--fondo-secundario);
       padding: 20px;
       border-radius: 14px;
       border: 1px solid var(--greige);
@@ -161,7 +165,7 @@
       margin: 8px auto 0;
       text-align: center;
       transition: all 0.3s ease;
-      color: var(--chocolate);
+      color: #424242; /* Cambiado a gris oscuro */
     }
 
     .slider-container {
@@ -196,7 +200,7 @@
 
     .results {
       padding: 30px;
-      background: var(--rosado);
+      background: var(--fondo-secundario);
       border-radius: 16px;
       margin: 20px 0;
       text-align: center;
@@ -251,104 +255,90 @@
 
     @media (max-width: 480px) {
       .container {
-        padding: 15px;
-        border-radius: 12px;
+        padding: 25px;
       }
-
-      h1 {
-        font-size: 24px;
-        padding-bottom: 15px;
-        margin-bottom: 10px;
-      }
-
-      .section {
-        padding: 15px 0;
-        margin: 10px 0;
-      }
-
-      .input-group.meta-total label {
-        font-size: 22px;
-      }
-
-      .input-group input[type="number"] {
-        width: 90%;
-        max-width: none;
-        padding: 12px 15px;
-        font-size: 16px;
-        margin-bottom: 15px;
-      }
-
+      
       .sub-expenses {
         grid-template-columns: 1fr;
-        gap: 12px;
-        margin: 15px 0;
       }
-
-      .sub-expenses > div {
-        padding: 15px;
-        border-radius: 10px;
+      
+      .input-group input[type="number"] {
+        width: 90%;
       }
-
-      .sub-expenses input {
-        width: 85%;
-        padding: 8px 12px;
-      }
-
-      .slider-container {
-        margin: 15px 0;
-      }
-
-      input[type="range"] {
-        width: 95%;
-        height: 6px;
-      }
-
-      input[type="range"]::-webkit-slider-thumb {
-        width: 20px;
-        height: 20px;
-      }
-
-      .results {
-        padding: 20px;
-        margin: 15px 0;
-      }
-
-      .results p {
-        font-size: 14px;
-        flex-wrap: wrap;
-        text-align: center;
-      }
-
-      .highlight {
-        font-size: 1.1em;
-      }
-
-      footer {
-        font-size: 13px;
-        margin-top: 20px;
-        padding-top: 15px;
-      }
-
-      .input-group.label-destacado label,
-      .slider-container.label-destacado label {
-        font-size: 16px;
-        margin-bottom: 8px;
+      
+      h1 {
+        font-size: 28px;
       }
     }
 
-    @media (max-width: 360px) {
-      .input-group input[type="number"] {
-        font-size: 15px;
-        padding: 10px 12px;
-      }
+    /* Modo Oscuro */
+    body.dark-mode {
+      --degradado: linear-gradient(135deg, #3E2723 0%, #1C2833 100%); /* Cambiado a marrón oscuro */
+      --fondo: rgba(62, 39, 35, 0.95); /* Cambiado a marrón oscuro */
+      --texto: #ECF0F1;
+      --fondo-secundario: #34495E;
+      --chocolate: #ECF0F1;
+      --terracota: #E67E22;
+      --greige: #566573;
+      --sombra: 0 8px 32px rgba(0, 0, 0, 0.2);
+      --borde: 1px solid rgba(255, 255, 255, 0.1);
+    }
 
-      h1 {
-        font-size: 22px;
-      }
+    .dark-mode .container {
+      background: var(--fondo);
+      border: 1px solid var(--greige);
+    }
+
+    .dark-mode .input-group input[type="number"] {
+      background: rgba(62, 39, 35, 0.9); /* Cambiado a marrón oscuro */
+      color: var(--texto);
+    }
+
+    .dark-mode .sub-expenses > div {
+      background: var(--fondo-secundario);
+      border: 1px solid var(--greige);
+    }
+
+    .dark-mode .results {
+      background: var(--fondo-secundario);
+    }
+
+    .dark-mode footer {
+      color: var(--texto);
+    }
+
+    .dark-mode-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: var(--terracota);
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      transition: all 0.3s ease;
+    }
+
+    .dark-mode-toggle:hover {
+      transform: scale(1.1);
+    }
+
+    .dark-mode-toggle img {
+      width: 20px;
+      height: 20px;
     }
   </style>
 </head>
 <body>
+  <button class="dark-mode-toggle" onclick="toggleDarkMode()">
+    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjZmZmZmZmIj48cGF0aCBkPSJNMCAwaDI0djI0SDB6IiBmaWxsPSJub25lIi8+PHBhdGggZD0iTTEwIDJjLTEuODIuMDItMy41MyAuNzgtNC45MSAxLjk5bC0uMDctLjA3LTEuNDEgMS40MSAxOC4zNyAxOC4zNyAxLjQxLTEuNDEtLjA3LS4wN0MyMS4yMiAxNy41MyAyMiAxNS44MiAyMiAxNGMwLTUuNTItNC40OC0xMC0xMC0xMHptMCAyYzQuNDEgMCA4IDMuNTkgOCA4IDAgMS4xLS4yMyAyLjE4LS42NSAzLjE1bC0xLjQ1LTEuNDVjLjM3LS44MS41OS0xLjcuNTktMi43IDAtMy4zMS0yLjY5LTYtNi02LTEgMC0xLjg5IC4yMi0yLjcgLjU5bC0xLjQ1LTEuNDVDNy44MiA0LjIzIDguOSA0IDEwIDR6bS0uOTUgOC4wNWMuMDItLjE2LjA1LS4zMi4wNS0uNDkgMC0xLjEtLjktMi0yLTItLjE3IDAtLjMzLjAzLS40OS4wNWwuNDQuNDR6bS0yLjk3IDIuOTdjLS4wMi4xNi0uMDUuMzItLjA1LjQ5IDAgMS4xLjkgMiAyIDIgLjE3IDAgLjMzLS4wMy40OS0uMDVsLS40NC0uNDR6TTIgMTJjMC0xLjgyLjc4LTMuNTMgMS45OS00LjkxbC0uMDctLjA3LTEuNDEgMS40MSAxOC4zNyAxOC4zNyAxLjQxLTEuNDEtLjA3LS4wN0MyLjE3IDIwLjQ3IDAgMTcuMzggMCAxNGMwLTUuNTIgNC40OC0xMCAxMC0xMHMxMCA0LjQ4IDEwIDEwYzAgMy4zOC0yLjE3IDYuNDctNS4yMyA3LjY1bC0xLjQ1LTEuNDVDMTcuMjIgMTcuNTMgMTggMTUuODIgMTggMTRjMC00LjQxLTMuNTktOC04LThzLTggMy41OS04IDhjMCAxLjgyLjc4IDMuNTMgMS45OSA0LjkxbC0uMDcuMDctMS40MS0xLjQxIDEuNDEtMS40MS4wNy4wN0MyLjE3IDcuNTMgMCAxMC42MiAwIDE0YzAgNS41MiA0LjQ4IDEwIDEwIDEwczEwLTQuNDggMTAtMTBjMC0zLjM4LTIuMTctNi40Ny01LjIzLTcuNjVsMS40NSAxLjQ1QzIuMTcgMTAuNDcgMCA3LjM4IDAgNHoiLz48L3N2Zz4=" alt="Modo Oscuro">
+  </button>
+
   <div id="content" class="container">
     <h1>Calculadora de Metas y Gastos</h1>
 
@@ -519,6 +509,20 @@
       });
     });
 
+    const toggleDarkMode = () => {
+      document.body.classList.toggle('dark-mode');
+      const isDarkMode = document.body.classList.contains('dark-mode');
+      localStorage.setItem('darkMode', isDarkMode);
+    };
+
+    const loadDarkMode = () => {
+      const isDarkMode = localStorage.getItem('darkMode') === 'true';
+      if (isDarkMode) {
+        document.body.classList.add('dark-mode');
+      }
+    };
+
+    loadDarkMode();
     updateExpenses();
     updateProfit();
   </script>
