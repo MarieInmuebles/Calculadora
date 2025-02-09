@@ -19,12 +19,33 @@
       --fondo-secundario: #E8C8C8;
     }
 
+    /* Animación del degradado de fondo */
     @keyframes gradientAnimation {
       0% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
     }
 
+    /* Animación de entrada suave para el body */
+    @keyframes entradaSuave {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Animación "fade in" para elementos que se agregan dinámicamente */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Animación "pulse" para destacar cambios */
+    @keyframes pulseAnimation {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+
+    /* Reinicio de estilos para los inputs de tipo number */
     input[type=number]::-webkit-inner-spin-button,
     input[type=number]::-webkit-outer-spin-button {
       -webkit-appearance: none;
@@ -32,11 +53,6 @@
     }
     input[type=number] {
       -moz-appearance: textfield;
-    }
-
-    @keyframes entradaSuave {
-      0% { opacity: 0; transform: translateY(20px); }
-      100% { opacity: 1; transform: translateY(0); }
     }
 
     * {
@@ -48,13 +64,12 @@
       padding: 20px;
       background: var(--degradado);
       background-size: 400% 400%;
-      animation: gradientAnimation 15s ease infinite;
+      animation: gradientAnimation 15s ease infinite, entradaSuave 0.6s ease-out;
       transition: background 1s ease, color 1s ease;
       min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
-      animation: entradaSuave 0.6s ease-out;
       color: var(--texto);
     }
 
@@ -185,6 +200,11 @@
       font-weight: bold;
       color: var(--terracota);
       margin: 0;
+      transition: transform 0.3s ease;
+    }
+    
+    .pulse {
+      animation: pulseAnimation 0.3s ease;
     }
     
     .profit-display .profit-label {
@@ -380,20 +400,7 @@
       color: green;
     }
 
-    .btn-print {
-      background: var(--terracota);
-      color: white;
-      border: none;
-      padding: 12px 24px;
-      border-radius: 8px;
-      cursor: pointer;
-      margin: 20px 0;
-      transition: background 0.3s ease;
-    }
-
-    .btn-print:hover {
-      background: #b15b47;
-    }
+    /* Se elimina el estilo del botón de imprimir al ya no estar presente */
 
     #expensesChart {
       max-width: 400px;
@@ -508,6 +515,11 @@
     .dark-mode-toggle:hover {
       transform: scale(1.1);
     }
+
+    /* Se añade la animación fadeIn a los gastos personalizados */
+    .custom-expense {
+      animation: fadeIn 0.5s ease;
+    }
   </style>
 </head>
 <body>
@@ -612,7 +624,6 @@
     </div>
 
     <footer>
-      <button class="btn-print" onclick="window.print()">🖨️ Imprimir Reporte</button>
       <p class="highlight">Recuerda, lo importante es ser constante. ¡Tú puedes!</p>
     </footer>
   </div>
@@ -669,7 +680,13 @@
     const updateProfit = () => {
       const cost = +elements.cost.value || 0;
       const price = +elements.price.value || 0;
-      elements.profitDisplay.textContent = (price - cost).toFixed(2) + '$';
+      const profitValue = price - cost;
+      elements.profitDisplay.textContent = profitValue.toFixed(2) + '$';
+      // Efecto "pulse" para destacar la actualización
+      elements.profitDisplay.classList.add('pulse');
+      setTimeout(() => {
+        elements.profitDisplay.classList.remove('pulse');
+      }, 300);
     };
 
     const updateResults = () => {
@@ -745,6 +762,11 @@
         },
         options: {
           responsive: true,
+          animation: {
+            animateRotate: true,
+            animateScale: true,
+            duration: 800
+          },
           plugins: {
             tooltip: {
               callbacks: {
