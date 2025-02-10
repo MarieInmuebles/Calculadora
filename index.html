@@ -6,6 +6,7 @@
   <title>Calculadora de Metas y Gastos</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
+    /* ==================== Variables y Animaciones ==================== */
     :root {
       --terracota: #C7795E;
       --chocolate: #6B4F4F;
@@ -18,47 +19,84 @@
       --texto: #6B4F4F;
       --fondo-secundario: #E8C8C8;
     }
-
-    /* Animación del degradado de fondo */
     @keyframes gradientAnimation {
       0% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
     }
-
-    /* Animación de entrada suave para el body */
     @keyframes entradaSuave {
       0% { opacity: 0; transform: translateY(20px); }
       100% { opacity: 1; transform: translateY(0); }
     }
-
-    /* Animación "fade in" para elementos que se agregan dinámicamente */
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
     }
-
-    /* Animación "pulse" para destacar cambios */
     @keyframes pulseAnimation {
       0% { transform: scale(1); }
       50% { transform: scale(1.1); }
       100% { transform: scale(1); }
     }
 
-    /* Reinicio de estilos para los inputs de tipo number */
-    input[type=number]::-webkit-inner-spin-button,
-    input[type=number]::-webkit-outer-spin-button {
-      -webkit-appearance: none;
-      margin: 0;
+    /* ==================== Estilos para el Login ==================== */
+    #loginScreen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--degradado);
+      background-size: 400% 400%;
+      animation: gradientAnimation 15s ease infinite;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+      flex-direction: column;
+      text-align: center;
+      padding: 20px;
     }
-    input[type=number] {
-      -moz-appearance: textfield;
+    .login-container {
+      background: var(--fondo);
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: var(--sombra);
+      width: 90%;
+      max-width: 400px;
+      animation: fadeIn 0.5s ease;
+    }
+    .login-container p {
+      font-size: 20px;
+      color: var(--chocolate);
+      margin-bottom: 20px;
+    }
+    .login-container input {
+      width: 100%;
+      padding: 12px;
+      font-size: 18px;
+      border: 2px solid var(--greige);
+      border-radius: 8px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    .login-container button {
+      padding: 12px 20px;
+      font-size: 18px;
+      background: var(--terracota);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    .login-container button:hover {
+      background: #b15b47;
     }
 
+    /* ==================== Estilos Globales ==================== */
     * {
       font-family: 'Poppins', sans-serif;
     }
-
     body {
       margin: 0;
       padding: 20px;
@@ -73,6 +111,11 @@
       color: var(--texto);
     }
 
+    /* ==================== Contenedor de Contenido ==================== */
+    /* Se oculta hasta que se realice el login */
+    #contentWrapper {
+      display: none;
+    }
     .container {
       background: var(--fondo);
       border-radius: 24px;
@@ -86,11 +129,16 @@
       border-bottom: none;
       transition: transform 0.3s ease, background 1s ease;
     }
-
     .container:hover {
       transform: translateY(-3px);
     }
-
+    /* Saludo personalizado */
+    #greeting {
+      font-size: 20px;
+      color: var(--terracota);
+      text-align: center;
+      margin-bottom: 20px;
+    }
     h1 {
       color: var(--chocolate);
       margin: 0 0 20px 0;
@@ -101,14 +149,12 @@
       font-weight: 700;
       letter-spacing: -0.5px;
     }
-
     h2 {
       margin: 0 0 20px;
       font-size: 24px;
       color: var(--chocolate);
       text-align: center;
     }
-
     .section {
       padding: 25px 0;
       border-bottom: var(--borde);
@@ -117,43 +163,36 @@
       justify-content: center;
       transition: all 0.3s ease;
     }
-
     .input-group {
       margin: 15px 0;
       text-align: center;
-      flex: 1;
       display: flex;
       flex-direction: column;
       justify-content: center;
     }
-    
     .label-destacado label,
     .slider-container.label-destacado label {
       font-size: 18px;
       font-weight: 700;
       color: var(--chocolate);
-      margin: 0 0 12px 0;
+      margin-bottom: 12px;
       letter-spacing: -0.3px;
     }
-    
     .input-group.meta-total label {
       font-size: 26px;
       font-weight: 700;
-      margin: 0 0 15px 0;
+      margin-bottom: 15px;
       color: var(--terracota);
       letter-spacing: -0.5px;
     }
-    
     .input-group.meta-total input {
       font-weight: bold;
       font-size: 1.3em;
     }
-    
     .normal-label label {
       font-weight: normal;
       margin-bottom: 5px;
     }
-    
     .input-group input[type="number"],
     .input-group input[type="text"] {
       width: 75%;
@@ -169,7 +208,6 @@
       background: rgba(255, 255, 255, 0.9);
       color: var(--texto);
     }
-
     .operation-row {
       display: flex;
       justify-content: space-between;
@@ -180,7 +218,6 @@
       padding: 20px;
       flex-wrap: wrap;
     }
-    
     .left-column, .right-column {
       flex: 1;
       display: flex;
@@ -189,12 +226,10 @@
       justify-content: center;
       padding: 10px;
     }
-    
     .profit-display {
       text-align: center;
       width: 100%;
     }
-    
     .profit-display .profit-value {
       font-size: 3.5em;
       font-weight: bold;
@@ -202,17 +237,14 @@
       margin: 0;
       transition: transform 0.3s ease;
     }
-    
     .pulse {
       animation: pulseAnimation 0.3s ease;
     }
-    
     .profit-display .profit-label {
       font-size: 0.8em;
       color: var(--chocolate);
       margin: 0;
     }
-    
     .operation-inputs {
       width: 100%;
       display: flex;
@@ -220,32 +252,27 @@
       gap: 10px;
       align-items: center;
     }
-    
     .operation-inputs .input-group input[type="number"] {
       width: 100%;
       max-width: 200px;
     }
-
     .input-group input[type="number"]:hover,
     .input-group input[type="text"]:hover {
       border-color: var(--terracota);
       box-shadow: 0 4px 15px rgba(199, 121, 94, 0.15);
     }
-
     .input-group input[type="number"]:focus,
     .input-group input[type="text"]:focus {
       outline: none;
       border-color: var(--terracota);
       box-shadow: 0 4px 20px rgba(199, 121, 94, 0.25);
     }
-
     .sub-expenses {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 20px;
       margin: 25px 0;
     }
-
     .sub-expenses > div, .custom-expense {
       background: var(--fondo-secundario);
       padding: 20px;
@@ -258,19 +285,16 @@
       transition: all 0.3s ease;
       position: relative;
     }
-
     .sub-expenses > div:hover, .custom-expense:hover {
       background: rgba(232, 200, 200, 0.8);
       transform: translateY(-3px);
     }
-
     .sub-expenses label, .custom-expense label {
       font-weight: bold;
       color: var(--chocolate);
       margin-bottom: 8px;
       font-size: 16px;
     }
-
     .sub-expenses input, .custom-expense input {
       width: 80%;
       padding: 10px 15px;
@@ -282,7 +306,6 @@
       transition: all 0.3s ease;
       color: #424242;
     }
-
     .custom-expense .expense-name {
       background: var(--fondo-secundario);
       color: var(--chocolate);
@@ -296,12 +319,10 @@
       text-align: center;
       transition: all 0.3s ease;
     }
-
     .custom-expense .expense-name:focus {
       outline: none;
       border: none;
     }
-
     .delete-btn {
       position: absolute;
       top: 5px;
@@ -314,11 +335,9 @@
       cursor: pointer;
       transition: color 0.3s ease;
     }
-
     .delete-btn:hover {
       color: #b15b47;
     }
-
     .btn-add-custom {
       display: block;
       width: 80%;
@@ -333,20 +352,16 @@
       cursor: pointer;
       transition: background 0.3s ease;
     }
-
     .btn-add-custom:hover {
       background: #b15b47;
     }
-
     .slider-container {
       margin: 25px 0;
       text-align: center;
-      flex: 1;
       display: flex;
       flex-direction: column;
       justify-content: center;
     }
-
     input[type="range"] {
       -webkit-appearance: none;
       width: 95%;
@@ -356,7 +371,6 @@
       border-radius: 10px;
       margin: 0 auto;
     }
-
     input[type="range"]::-webkit-slider-thumb {
       -webkit-appearance: none;
       width: 24px;
@@ -367,7 +381,6 @@
       box-shadow: 0 4px 12px rgba(199, 121, 94, 0.3);
       transition: all 0.3s ease;
     }
-
     .results {
       padding: 30px;
       background: var(--fondo-secundario);
@@ -376,13 +389,11 @@
       text-align: center;
       position: relative;
     }
-
     .highlight {
       color: var(--terracota);
       font-weight: 800;
       font-size: 1.3em;
     }
-
     footer {
       margin-top: 30px;
       text-align: center;
@@ -391,22 +402,16 @@
       padding-top: 25px;
       border-top: 2px solid var(--greige);
     }
-
     .insufficient {
       color: red;
     }
-
     .sufficient {
       color: green;
     }
-
-    /* Se elimina el estilo del botón de imprimir al ya no estar presente */
-
     #expensesChart {
       max-width: 400px;
       margin: 0 auto;
     }
-
     @media (max-width: 480px) {
       .container {
         padding: 25px;
@@ -428,25 +433,21 @@
         width: 90%;
       }
     }
-
     @media print {
       .dark-mode-toggle,
       .btn-add-custom,
       .delete-btn {
         display: none !important;
       }
-      
       .container {
         box-shadow: none;
         background: white !important;
       }
-      
       .results {
         page-break-inside: avoid;
       }
     }
-
-    /* Modo Oscuro */
+    /* ==================== Modo Oscuro ==================== */
     body.dark-mode {
       --degradado: linear-gradient(135deg, #3E2723, #1C2833, #3E2723);
       --fondo: rgba(62, 39, 35, 0.95);
@@ -458,13 +459,11 @@
       --sombra: 0 8px 32px rgba(0, 0, 0, 0.2);
       --borde: 1px solid rgba(255, 255, 255, 0.1);
     }
-
     .dark-mode .container {
       background: var(--fondo);
       border: 1px solid var(--greige);
       border-bottom: none;
     }
-
     .dark-mode .input-group.meta-total input,
     .dark-mode #monthlyExpenses,
     .dark-mode #cost,
@@ -473,12 +472,10 @@
       color: #424242 !important;
       background: rgba(255, 255, 255, 0.9) !important;
     }
-
     .dark-mode .input-group input[type="number"]:focus,
     .dark-mode .input-group input[type="text"]:focus {
       background: rgba(255, 255, 255, 0.95) !important;
     }
-
     .dark-mode .sub-expenses > div {
       background: #542e25;
       border: 1px solid var(--greige);
@@ -491,7 +488,7 @@
       color: var(--texto);
       border-top: 2px solid var(--greige);
     }
-
+    /* ==================== Botón para Modo Oscuro ==================== */
     .dark-mode-toggle {
       position: fixed;
       top: 20px;
@@ -511,124 +508,149 @@
       color: #fff;
       z-index: 1000;
     }
-
     .dark-mode-toggle:hover {
       transform: scale(1.1);
     }
-
-    /* Se añade la animación fadeIn a los gastos personalizados */
     .custom-expense {
       animation: fadeIn 0.5s ease;
     }
   </style>
 </head>
 <body>
-  <button class="dark-mode-toggle" onclick="toggleDarkMode()">☀️</button>
-  <div id="content" class="container">
-    <h1>Calculadora de Metas y Gastos</h1>
-
-    <div class="section">
-      <div class="input-group meta-total">
-        <label for="totalAmount">Meta total ($)</label>
-        <input type="number" id="totalAmount" value="25000" step="0.01">
-      </div>
+  <!-- Pantalla de Login -->
+  <div id="loginScreen">
+    <div class="login-container">
+      <p>La contraseña que abre tus sueños siempre ha sido tu nombre</p>
+      <input type="password" id="loginPassword" placeholder="Ingresa tu nombre">
+      <button id="loginButton">Entrar</button>
     </div>
+  </div>
 
-    <div class="section">
-      <div class="input-group label-destacado">
-        <label for="monthlyExpenses">Gastos mensuales ($)</label>
-        <input type="number" id="monthlyExpenses" value="0" readonly>
-      </div>
-      
-      <div class="sub-expenses" id="expensesContainer">
-        <div>
-          <label>Alquiler</label>
-          <input type="number" id="rent" value="0" step="0.01">
-        </div>
-        <div>
-          <label>Comida</label>
-          <input type="number" id="food" value="0" step="0.01">
-        </div>
-        <div>
-          <label>Servicios</label>
-          <input type="number" id="services" value="0" step="0.01">
-        </div>
-        <div>
-          <label>Entretenimiento</label>
-          <input type="number" id="entertainment" value="0" step="0.01">
+  <!-- Contenedor de Contenido (se mostrará luego del login) -->
+  <div id="contentWrapper">
+    <!-- Botón para cambiar de Modo Claro/Oscuro -->
+    <button class="dark-mode-toggle" onclick="toggleDarkMode()">☀️</button>
+    <div id="content" class="container">
+      <!-- Saludo Personalizado -->
+      <div id="greeting"></div>
+      <h1>Calculadora de Metas y Gastos</h1>
+
+      <div class="section">
+        <div class="input-group meta-total">
+          <label for="totalAmount">Meta total ($)</label>
+          <input type="number" id="totalAmount" value="25000" step="0.01">
         </div>
       </div>
-      <button class="btn-add-custom" id="addCustomExpense">Agregar gasto personalizado</button>
-    </div>
 
-    <div class="section">
-      <h2>Ingresos</h2>
-      
-      <div class="input-group label-destacado">
-        <label for="salary">Sueldo mensual ($)</label>
-        <input type="number" id="salary" value="0" step="0.01">
-      </div>
-
-      <div class="operation-row">
-        <div class="left-column">
-          <div class="profit-display">
-            <div id="profitDisplay" class="profit-value">0$</div>
-            <div class="profit-label">Ganancia por operación</div>
+      <div class="section">
+        <div class="input-group label-destacado">
+          <label for="monthlyExpenses">Gastos mensuales ($)</label>
+          <input type="number" id="monthlyExpenses" value="0" readonly>
+        </div>
+        <div class="sub-expenses" id="expensesContainer">
+          <div>
+            <label>Alquiler</label>
+            <input type="number" id="rent" value="0" step="0.01">
+          </div>
+          <div>
+            <label>Comida</label>
+            <input type="number" id="food" value="0" step="0.01">
+          </div>
+          <div>
+            <label>Servicios</label>
+            <input type="number" id="services" value="0" step="0.01">
+          </div>
+          <div>
+            <label>Entretenimiento</label>
+            <input type="number" id="entertainment" value="0" step="0.01">
           </div>
         </div>
-        <div class="right-column">
-          <div class="operation-inputs">
-            <div class="input-group normal-label">
-              <label for="cost">Costo operacion ($)</label>
-              <input type="number" id="cost" value="0" step="0.01">
+        <button class="btn-add-custom" id="addCustomExpense">Agregar gasto personalizado</button>
+      </div>
+
+      <div class="section">
+        <h2>Ingresos</h2>
+        <div class="input-group label-destacado">
+          <label for="salary">Sueldo mensual ($)</label>
+          <input type="number" id="salary" value="0" step="0.01">
+        </div>
+        <div class="operation-row">
+          <div class="left-column">
+            <div class="profit-display">
+              <div id="profitDisplay" class="profit-value">0$</div>
+              <div class="profit-label">Ganancia por operación</div>
             </div>
-            <div class="input-group normal-label">
-              <label for="price">Precio de venta ($)</label>
-              <input type="number" id="price" value="0" step="0.01">
+          </div>
+          <div class="right-column">
+            <div class="operation-inputs">
+              <div class="input-group normal-label">
+                <label for="cost">Costo operacion ($)</label>
+                <input type="number" id="cost" value="0" step="0.01">
+              </div>
+              <div class="input-group normal-label">
+                <label for="price">Precio de venta ($)</label>
+                <input type="number" id="price" value="0" step="0.01">
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <div class="section">
-      <div class="slider-container label-destacado">
-        <label for="operationsPerMonth">Operaciones mensuales</label>
-        <input type="range" id="operationsPerMonth" value="50" min="1" max="2500" step="1">
-        <div style="margin-top: 12px; font-weight: 600; color: var(--chocolate)">
-          Cantidad: <span id="operationsLabel">50</span>
+      <div class="section">
+        <div class="slider-container label-destacado">
+          <label for="operationsPerMonth">Operaciones mensuales</label>
+          <input type="range" id="operationsPerMonth" value="50" min="1" max="2500" step="1">
+          <div style="margin-top: 12px; font-weight: 600; color: var(--chocolate)">
+            Cantidad: <span id="operationsLabel">50</span>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="section">
-      <div class="results">
-        <p>
-          Estado de tus operaciones para gastos: 
-          <span id="expenseStatus" class="insufficient">❌ Insuficiente</span>
-        </p>
-        <p>Ganancia sobrante mensual: <span id="monthlyProfit">0</span>$</p>
-        <p>Tiempo estimado para la meta:</p>
-        <ul style="list-style: none; padding: 0;">
-          <li><span id="monthsNeeded" class="highlight">0</span> meses</li>
-          <li><span id="yearsNeeded" class="highlight">0</span> años</li>
-        </ul>
+      <div class="section">
+        <div class="results">
+          <p>
+            Estado de tus operaciones para gastos:
+            <span id="expenseStatus" class="insufficient">❌ Insuficiente</span>
+          </p>
+          <p>Ganancia sobrante mensual: <span id="monthlyProfit">0</span>$</p>
+          <p>Tiempo estimado para la meta:</p>
+          <ul style="list-style: none; padding: 0;">
+            <li><span id="monthsNeeded" class="highlight">0</span> meses</li>
+            <li><span id="yearsNeeded" class="highlight">0</span> años</li>
+          </ul>
+        </div>
       </div>
-    </div>
 
-    <div class="section">
-      <div class="results">
-        <h2>Distribución de Gastos</h2>
-        <canvas id="expensesChart"></canvas>
+      <div class="section">
+        <div class="results">
+          <h2>Distribución de Gastos</h2>
+          <canvas id="expensesChart"></canvas>
+        </div>
       </div>
-    </div>
 
-    <footer>
-      <p class="highlight">Recuerda, lo importante es ser constante. ¡Tú puedes!</p>
-    </footer>
+      <footer>
+        <p class="highlight">Recuerda, lo importante es ser constante. ¡Tú puedes!</p>
+      </footer>
+    </div>
   </div>
 
   <script>
+    // ==================== Funcionalidad de Login ====================
+    document.getElementById('loginButton').addEventListener('click', function() {
+      const passwordInput = document.getElementById('loginPassword');
+      const userName = passwordInput.value.trim();
+      if (userName !== "") {
+        // Actualiza el saludo personalizado
+        document.getElementById('greeting').textContent = "Hola " + userName + " Bienvenid@ al primer compromiso con lo que deseas";
+        // Oculta la pantalla de login y muestra el contenido (incluye el botón de modo oscuro)
+        document.getElementById('loginScreen').style.display = "none";
+        document.getElementById('contentWrapper').style.display = "block";
+      } else {
+        alert("Por favor, ingresa tu nombre.");
+      }
+    });
+
+    // ==================== Funcionalidad de la Calculadora ====================
     const elements = {
       totalAmount: document.getElementById('totalAmount'),
       monthlyExpenses: document.getElementById('monthlyExpenses'),
@@ -659,7 +681,6 @@
 
     let chartInstance = null;
 
-    // ========== FUNCIONES DE ACTUALIZACIÓN ==========
     const updateAll = () => {
       updateExpenses();
       updateProfit();
@@ -682,7 +703,6 @@
       const price = +elements.price.value || 0;
       const profitValue = price - cost;
       elements.profitDisplay.textContent = profitValue.toFixed(2) + '$';
-      // Efecto "pulse" para destacar la actualización
       elements.profitDisplay.classList.add('pulse');
       setTimeout(() => {
         elements.profitDisplay.classList.remove('pulse');
@@ -723,7 +743,6 @@
         'Entretenimiento': parseFloat(elements.entertainment.value) || 0
       };
 
-      // Agregar gastos personalizados
       document.querySelectorAll('.custom-expense').forEach(expense => {
         const name = expense.querySelector('.expense-name').value || 'Gasto Personalizado';
         const amount = parseFloat(expense.querySelector('.expense-amount').value) || 0;
@@ -749,6 +768,8 @@
 
       document.getElementById('expensesChart').style.display = 'block';
       
+      const isDarkMode = document.body.classList.contains('dark-mode');
+
       chartInstance = new Chart(ctx, {
         type: 'pie',
         data: {
@@ -768,6 +789,11 @@
             duration: 800
           },
           plugins: {
+            legend: {
+              labels: {
+                color: isDarkMode ? '#fff' : '#6B4F4F'
+              }
+            },
             tooltip: {
               callbacks: {
                 label: function(context) {
@@ -782,7 +808,7 @@
       });
     };
 
-    // ========== PERSISTENCIA COMPLETA ==========
+    // ==================== Persistencia ====================
     const saveState = () => {
       const state = {
         totalAmount: elements.totalAmount.value,
@@ -825,8 +851,6 @@
       const savedState = localStorage.getItem('fullCalculatorState');
       if (savedState) {
         const state = JSON.parse(savedState);
-
-        // Restaurar valores principales
         elements.totalAmount.value = state.totalAmount;
         elements.salary.value = state.salary;
         elements.cost.value = state.cost;
@@ -838,8 +862,6 @@
         elements.monthlyProfit.textContent = state.monthlyProfit;
         elements.monthsNeeded.textContent = state.monthsNeeded;
         elements.yearsNeeded.textContent = state.yearsNeeded;
-
-        // Restaurar estado de gastos
         elements.rent.value = state.expenses.rent;
         elements.food.value = state.expenses.food;
         elements.services.value = state.expenses.services;
@@ -850,18 +872,12 @@
           services: parseFloat(state.expenses.services) || 0,
           entertainment: parseFloat(state.expenses.entertainment) || 0
         };
-
-        // Restaurar estado visual
         elements.expenseStatus.textContent = state.expenseStatus.text;
         elements.expenseStatus.className = state.expenseStatus.class;
-        
-        // Restaurar modo oscuro
         if (state.darkMode) {
           document.body.classList.add('dark-mode');
           document.querySelector('.dark-mode-toggle').textContent = '🌙';
         }
-
-        // Restaurar gastos personalizados
         if (state.customExpenses) {
           state.customExpenses.forEach(expense => {
             createCustomExpense(expense.name, expense.amount);
@@ -870,11 +886,10 @@
       }
     };
 
-    // ========== GASTOS PERSONALIZADOS ==========
+    // ==================== Gastos Personalizados ====================
     const createCustomExpense = (nameVal = '', amountVal = '0') => {
       const customDiv = document.createElement('div');
       customDiv.classList.add('custom-expense');
-
       const deleteBtn = document.createElement('button');
       deleteBtn.textContent = '×';
       deleteBtn.classList.add('delete-btn');
@@ -883,23 +898,19 @@
         updateAll();
       });
       customDiv.appendChild(deleteBtn);
-
       const nameInput = document.createElement('input');
       nameInput.type = 'text';
       nameInput.placeholder = 'Nombre del gasto';
       nameInput.value = nameVal;
       nameInput.classList.add('expense-name');
-
       const amountInput = document.createElement('input');
       amountInput.type = 'number';
       amountInput.value = amountVal;
       amountInput.step = '0.01';
       amountInput.classList.add('expense-amount');
-
       customDiv.appendChild(nameInput);
       customDiv.appendChild(amountInput);
       elements.expensesContainer.appendChild(customDiv);
-
       [nameInput, amountInput].forEach(input => {
         input.addEventListener('input', updateAll);
         input.addEventListener('focus', function() {
@@ -911,29 +922,26 @@
       });
     };
 
-    // ========== EVENT LISTENERS ==========
+    // ==================== Event Listeners ====================
     elements.operationsPerMonth.addEventListener('input', () => {
       elements.operationsLabel.textContent = elements.operationsPerMonth.value;
       updateAll();
     });
-
     Object.keys(expenses).forEach(key => {
       document.getElementById(key).addEventListener('input', (e) => {
         expenses[key] = e.target.value;
         updateAll();
       });
     });
-
     ['totalAmount', 'salary', 'cost', 'price'].forEach(id => {
       document.getElementById(id).addEventListener('input', updateAll);
     });
-
     elements.addCustomExpenseBtn.addEventListener('click', () => {
       createCustomExpense();
       updateAll();
     });
 
-    // ========== MODO OSCURO ==========
+    // ==================== Modo Oscuro ====================
     const toggleDarkMode = () => {
       document.body.classList.toggle('dark-mode');
       const isDarkMode = document.body.classList.contains('dark-mode');
@@ -942,10 +950,9 @@
       updateAll();
     };
 
-    // ========== INICIALIZACIÓN ==========
+    // ==================== Inicialización ====================
     const initializeApp = () => {
       loadState();
-      
       setTimeout(() => {
         updateAll();
         document.querySelectorAll('input').forEach(input => {
