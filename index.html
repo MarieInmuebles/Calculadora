@@ -19,78 +19,37 @@
       --texto: #6B4F4F;
       --fondo-secundario: #E8C8C8;
     }
+
     @keyframes gradientAnimation {
       0% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
     }
+
     @keyframes entradaSuave {
       0% { opacity: 0; transform: translateY(20px); }
       100% { opacity: 1; transform: translateY(0); }
     }
+
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
     }
+
     @keyframes pulseAnimation {
       0% { transform: scale(1); }
       50% { transform: scale(1.1); }
       100% { transform: scale(1); }
     }
 
-    /* ==================== Estilos para el Login ==================== */
-    #loginScreen {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: var(--degradado);
-      background-size: 400% 400%;
-      animation: gradientAnimation 15s ease infinite;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 2000;
-      flex-direction: column;
-      text-align: center;
-      padding: 20px;
+    /* ==================== Remover controles de números ==================== */
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
     }
-    .login-container {
-      background: var(--fondo);
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: var(--sombra);
-      width: 90%;
-      max-width: 400px;
-      animation: fadeIn 0.5s ease;
-    }
-    .login-container p {
-      font-size: 20px;
-      color: var(--chocolate);
-      margin-bottom: 20px;
-    }
-    .login-container input {
-      width: 100%;
-      padding: 12px;
-      font-size: 18px;
-      border: 2px solid var(--greige);
-      border-radius: 8px;
-      margin-bottom: 20px;
-      text-align: center;
-    }
-    .login-container button {
-      padding: 12px 20px;
-      font-size: 18px;
-      background: var(--terracota);
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background 0.3s ease;
-    }
-    .login-container button:hover {
-      background: #b15b47;
+    input[type=number] {
+      -moz-appearance: textfield;
     }
 
     /* ==================== Estilos Globales ==================== */
@@ -111,10 +70,10 @@
       color: var(--texto);
     }
 
-    /* ==================== Contenedor de Contenido ==================== */
-    /* Se oculta hasta que se realice el login */
-    #contentWrapper {
-      display: none;
+    /* ==================== Contenedor Principal ==================== */
+    /* Ahora se muestra directamente sin pantalla de login */
+    #content {
+      display: block;
     }
     .container {
       background: var(--fondo);
@@ -132,13 +91,32 @@
     .container:hover {
       transform: translateY(-3px);
     }
-    /* Saludo personalizado */
-    #greeting {
-      font-size: 20px;
-      color: var(--terracota);
-      text-align: center;
-      margin-bottom: 20px;
+
+    /* ==================== Botón de Modo Oscuro ==================== */
+    .dark-mode-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: linear-gradient(135deg, var(--terracota), #f08c6e);
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s ease, background 0.3s ease;
+      font-size: 24px;
+      color: #fff;
+      z-index: 1000;
     }
+    .dark-mode-toggle:hover {
+      transform: scale(1.1);
+    }
+
+    /* ==================== Títulos y Secciones ==================== */
     h1 {
       color: var(--chocolate);
       margin: 0 0 20px 0;
@@ -208,6 +186,8 @@
       background: rgba(255, 255, 255, 0.9);
       color: var(--texto);
     }
+
+    /* ==================== Operación y Resultados ==================== */
     .operation-row {
       display: flex;
       justify-content: space-between;
@@ -488,169 +468,117 @@
       color: var(--texto);
       border-top: 2px solid var(--greige);
     }
-    /* ==================== Botón para Modo Oscuro ==================== */
-    .dark-mode-toggle {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      background: linear-gradient(135deg, var(--terracota), #f08c6e);
-      border: none;
-      border-radius: 50%;
-      width: 50px;
-      height: 50px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-      transition: transform 0.3s ease, background 0.3s ease;
-      font-size: 24px;
-      color: #fff;
-      z-index: 1000;
-    }
-    .dark-mode-toggle:hover {
-      transform: scale(1.1);
-    }
-    .custom-expense {
-      animation: fadeIn 0.5s ease;
-    }
   </style>
 </head>
 <body>
-  <!-- Pantalla de Login -->
-  <div id="loginScreen">
-    <div class="login-container">
-      <p>La contraseña que abre tus sueños siempre ha sido tu nombre</p>
-      <input type="password" id="loginPassword" placeholder="Ingresa tu nombre">
-      <button id="loginButton">Entrar</button>
+  <!-- Botón para cambiar entre Modo Claro/Oscuro -->
+  <button class="dark-mode-toggle" onclick="toggleDarkMode()">☀️</button>
+  <div id="content" class="container">
+    <h1>Calculadora de Metas y Gastos</h1>
+
+    <div class="section">
+      <div class="input-group meta-total">
+        <label for="totalAmount">Meta total ($)</label>
+        <input type="number" id="totalAmount" value="25000" step="0.01">
+      </div>
     </div>
-  </div>
 
-  <!-- Contenedor de Contenido (se mostrará luego del login) -->
-  <div id="contentWrapper">
-    <!-- Botón para cambiar de Modo Claro/Oscuro -->
-    <button class="dark-mode-toggle" onclick="toggleDarkMode()">☀️</button>
-    <div id="content" class="container">
-      <!-- Saludo Personalizado -->
-      <div id="greeting"></div>
-      <h1>Calculadora de Metas y Gastos</h1>
-
-      <div class="section">
-        <div class="input-group meta-total">
-          <label for="totalAmount">Meta total ($)</label>
-          <input type="number" id="totalAmount" value="25000" step="0.01">
+    <div class="section">
+      <div class="input-group label-destacado">
+        <label for="monthlyExpenses">Gastos mensuales ($)</label>
+        <input type="number" id="monthlyExpenses" value="0" readonly>
+      </div>
+      
+      <div class="sub-expenses" id="expensesContainer">
+        <div>
+          <label>Alquiler</label>
+          <input type="number" id="rent" value="0" step="0.01">
+        </div>
+        <div>
+          <label>Comida</label>
+          <input type="number" id="food" value="0" step="0.01">
+        </div>
+        <div>
+          <label>Servicios</label>
+          <input type="number" id="services" value="0" step="0.01">
+        </div>
+        <div>
+          <label>Entretenimiento</label>
+          <input type="number" id="entertainment" value="0" step="0.01">
         </div>
       </div>
+      <button class="btn-add-custom" id="addCustomExpense">Agregar gasto personalizado</button>
+    </div>
 
-      <div class="section">
-        <div class="input-group label-destacado">
-          <label for="monthlyExpenses">Gastos mensuales ($)</label>
-          <input type="number" id="monthlyExpenses" value="0" readonly>
-        </div>
-        <div class="sub-expenses" id="expensesContainer">
-          <div>
-            <label>Alquiler</label>
-            <input type="number" id="rent" value="0" step="0.01">
-          </div>
-          <div>
-            <label>Comida</label>
-            <input type="number" id="food" value="0" step="0.01">
-          </div>
-          <div>
-            <label>Servicios</label>
-            <input type="number" id="services" value="0" step="0.01">
-          </div>
-          <div>
-            <label>Entretenimiento</label>
-            <input type="number" id="entertainment" value="0" step="0.01">
-          </div>
-        </div>
-        <button class="btn-add-custom" id="addCustomExpense">Agregar gasto personalizado</button>
+    <div class="section">
+      <h2>Ingresos</h2>
+      
+      <div class="input-group label-destacado">
+        <label for="salary">Sueldo mensual ($)</label>
+        <input type="number" id="salary" value="0" step="0.01">
       </div>
 
-      <div class="section">
-        <h2>Ingresos</h2>
-        <div class="input-group label-destacado">
-          <label for="salary">Sueldo mensual ($)</label>
-          <input type="number" id="salary" value="0" step="0.01">
+      <div class="operation-row">
+        <div class="left-column">
+          <div class="profit-display">
+            <div id="profitDisplay" class="profit-value">0$</div>
+            <div class="profit-label">Ganancia por operación</div>
+          </div>
         </div>
-        <div class="operation-row">
-          <div class="left-column">
-            <div class="profit-display">
-              <div id="profitDisplay" class="profit-value">0$</div>
-              <div class="profit-label">Ganancia por operación</div>
+        <div class="right-column">
+          <div class="operation-inputs">
+            <div class="input-group normal-label">
+              <label for="cost">Costo operacion ($)</label>
+              <input type="number" id="cost" value="0" step="0.01">
             </div>
-          </div>
-          <div class="right-column">
-            <div class="operation-inputs">
-              <div class="input-group normal-label">
-                <label for="cost">Costo operacion ($)</label>
-                <input type="number" id="cost" value="0" step="0.01">
-              </div>
-              <div class="input-group normal-label">
-                <label for="price">Precio de venta ($)</label>
-                <input type="number" id="price" value="0" step="0.01">
-              </div>
+            <div class="input-group normal-label">
+              <label for="price">Precio de venta ($)</label>
+              <input type="number" id="price" value="0" step="0.01">
             </div>
           </div>
         </div>
       </div>
-
-      <div class="section">
-        <div class="slider-container label-destacado">
-          <label for="operationsPerMonth">Operaciones mensuales</label>
-          <input type="range" id="operationsPerMonth" value="50" min="1" max="2500" step="1">
-          <div style="margin-top: 12px; font-weight: 600; color: var(--chocolate)">
-            Cantidad: <span id="operationsLabel">50</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="section">
-        <div class="results">
-          <p>
-            Estado de tus operaciones para gastos:
-            <span id="expenseStatus" class="insufficient">❌ Insuficiente</span>
-          </p>
-          <p>Ganancia sobrante mensual: <span id="monthlyProfit">0</span>$</p>
-          <p>Tiempo estimado para la meta:</p>
-          <ul style="list-style: none; padding: 0;">
-            <li><span id="monthsNeeded" class="highlight">0</span> meses</li>
-            <li><span id="yearsNeeded" class="highlight">0</span> años</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="section">
-        <div class="results">
-          <h2>Distribución de Gastos</h2>
-          <canvas id="expensesChart"></canvas>
-        </div>
-      </div>
-
-      <footer>
-        <p class="highlight">Recuerda, lo importante es ser constante. ¡Tú puedes!</p>
-      </footer>
     </div>
+
+    <div class="section">
+      <div class="slider-container label-destacado">
+        <label for="operationsPerMonth">Operaciones mensuales</label>
+        <!-- Slider ajustado para ir de 1 a 1000 -->
+        <input type="range" id="operationsPerMonth" value="50" min="1" max="1000" step="1">
+        <div style="margin-top: 12px; font-weight: 600; color: var(--chocolate)">
+          Cantidad: <span id="operationsLabel">50</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="results">
+        <p>
+          Estado de tus operaciones para gastos: 
+          <span id="expenseStatus" class="insufficient">❌ Insuficiente</span>
+        </p>
+        <p>Ganancia sobrante mensual: <span id="monthlyProfit">0</span>$</p>
+        <p>Tiempo estimado para la meta:</p>
+        <ul style="list-style: none; padding: 0;">
+          <li><span id="monthsNeeded" class="highlight">0</span> meses</li>
+          <li><span id="yearsNeeded" class="highlight">0</span> años</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="results">
+        <h2>Distribución de Gastos</h2>
+        <canvas id="expensesChart"></canvas>
+      </div>
+    </div>
+
+    <footer>
+      <p class="highlight">Recuerda, lo importante es ser constante. ¡Tú puedes!</p>
+    </footer>
   </div>
 
   <script>
-    // ==================== Funcionalidad de Login ====================
-    document.getElementById('loginButton').addEventListener('click', function() {
-      const passwordInput = document.getElementById('loginPassword');
-      const userName = passwordInput.value.trim();
-      if (userName !== "") {
-        // Actualiza el saludo personalizado
-        document.getElementById('greeting').textContent = "Hola " + userName + " Bienvenid@ al primer compromiso con lo que deseas";
-        // Oculta la pantalla de login y muestra el contenido (incluye el botón de modo oscuro)
-        document.getElementById('loginScreen').style.display = "none";
-        document.getElementById('contentWrapper').style.display = "block";
-      } else {
-        alert("Por favor, ingresa tu nombre.");
-      }
-    });
-
-    // ==================== Funcionalidad de la Calculadora ====================
     const elements = {
       totalAmount: document.getElementById('totalAmount'),
       monthlyExpenses: document.getElementById('monthlyExpenses'),
@@ -681,6 +609,7 @@
 
     let chartInstance = null;
 
+    // ========== FUNCIONES DE ACTUALIZACIÓN ==========
     const updateAll = () => {
       updateExpenses();
       updateProfit();
@@ -703,6 +632,7 @@
       const price = +elements.price.value || 0;
       const profitValue = price - cost;
       elements.profitDisplay.textContent = profitValue.toFixed(2) + '$';
+      // Efecto "pulse" para destacar la actualización
       elements.profitDisplay.classList.add('pulse');
       setTimeout(() => {
         elements.profitDisplay.classList.remove('pulse');
@@ -743,6 +673,7 @@
         'Entretenimiento': parseFloat(elements.entertainment.value) || 0
       };
 
+      // Agregar gastos personalizados
       document.querySelectorAll('.custom-expense').forEach(expense => {
         const name = expense.querySelector('.expense-name').value || 'Gasto Personalizado';
         const amount = parseFloat(expense.querySelector('.expense-amount').value) || 0;
@@ -768,6 +699,7 @@
 
       document.getElementById('expensesChart').style.display = 'block';
       
+      // En modo oscuro, la leyenda se mostrará en blanco
       const isDarkMode = document.body.classList.contains('dark-mode');
 
       chartInstance = new Chart(ctx, {
@@ -808,7 +740,7 @@
       });
     };
 
-    // ==================== Persistencia ====================
+    // ========== PERSISTENCIA ==========
     const saveState = () => {
       const state = {
         totalAmount: elements.totalAmount.value,
@@ -886,10 +818,11 @@
       }
     };
 
-    // ==================== Gastos Personalizados ====================
+    // ========== GASTOS PERSONALIZADOS ==========
     const createCustomExpense = (nameVal = '', amountVal = '0') => {
       const customDiv = document.createElement('div');
       customDiv.classList.add('custom-expense');
+
       const deleteBtn = document.createElement('button');
       deleteBtn.textContent = '×';
       deleteBtn.classList.add('delete-btn');
@@ -898,19 +831,23 @@
         updateAll();
       });
       customDiv.appendChild(deleteBtn);
+
       const nameInput = document.createElement('input');
       nameInput.type = 'text';
       nameInput.placeholder = 'Nombre del gasto';
       nameInput.value = nameVal;
       nameInput.classList.add('expense-name');
+
       const amountInput = document.createElement('input');
       amountInput.type = 'number';
       amountInput.value = amountVal;
       amountInput.step = '0.01';
       amountInput.classList.add('expense-amount');
+
       customDiv.appendChild(nameInput);
       customDiv.appendChild(amountInput);
       elements.expensesContainer.appendChild(customDiv);
+
       [nameInput, amountInput].forEach(input => {
         input.addEventListener('input', updateAll);
         input.addEventListener('focus', function() {
@@ -922,26 +859,29 @@
       });
     };
 
-    // ==================== Event Listeners ====================
+    // ========== EVENT LISTENERS ==========
     elements.operationsPerMonth.addEventListener('input', () => {
       elements.operationsLabel.textContent = elements.operationsPerMonth.value;
       updateAll();
     });
+
     Object.keys(expenses).forEach(key => {
       document.getElementById(key).addEventListener('input', (e) => {
         expenses[key] = e.target.value;
         updateAll();
       });
     });
+
     ['totalAmount', 'salary', 'cost', 'price'].forEach(id => {
       document.getElementById(id).addEventListener('input', updateAll);
     });
+
     elements.addCustomExpenseBtn.addEventListener('click', () => {
       createCustomExpense();
       updateAll();
     });
 
-    // ==================== Modo Oscuro ====================
+    // ========== MODO OSCURO ==========
     const toggleDarkMode = () => {
       document.body.classList.toggle('dark-mode');
       const isDarkMode = document.body.classList.contains('dark-mode');
@@ -950,9 +890,10 @@
       updateAll();
     };
 
-    // ==================== Inicialización ====================
+    // ========== INICIALIZACIÓN ==========
     const initializeApp = () => {
       loadState();
+      
       setTimeout(() => {
         updateAll();
         document.querySelectorAll('input').forEach(input => {
