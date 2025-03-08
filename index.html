@@ -20,7 +20,30 @@
       --fondo-secundario: #E8C8C8;
       --neon: drop-shadow(0 0 8px var(--terracota));
     }
-
+    /* Animaciones extras */
+    @keyframes fadeInLeft {
+      from { opacity: 0; transform: translateX(-20px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes ripple {
+      from { transform: scale(0); opacity: 1; }
+      to { transform: scale(2.5); opacity: 0; }
+    }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-3px); }
+      75% { transform: translateX(3px); }
+    }
+    @keyframes glow {
+      0% { text-shadow: 0 0 5px var(--terracota); }
+      50% { text-shadow: 0 0 15px var(--terracota); }
+      100% { text-shadow: 0 0 5px var(--terracota); }
+    }
+    
     @keyframes gradientAnimation {
       0% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
@@ -58,9 +81,6 @@
       background-size: 400% 400%;
       animation: gradientAnimation 15s ease infinite, fadeInUp 0.6s ease-out;
       min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
       color: var(--texto);
     }
 
@@ -78,6 +98,21 @@
       text-align: center;
       margin: 8px 0;
     }
+    /* ==================== Estilo para el texto descriptivo ==================== */
+    .description {
+      text-align: left;
+      font-size: 12px;
+      font-style: italic;
+      margin: 10px 0 20px;
+      color: var(--chocolate);
+      line-height: 1.5;
+      animation: fadeInLeft 1s ease;
+    }
+    .description .signature {
+      display: block;
+      text-align: right;
+      margin-top: 10px;
+    }
 
     /* ==================== Contenedor Principal ==================== */
     #content {
@@ -87,15 +122,16 @@
       background: var(--fondo);
       border-radius: 16px;
       box-shadow: var(--sombra);
-      width: 95%;
-      max-width: 500px;
+      width: 75%;
       padding: 20px 25px;
       backdrop-filter: blur(12px);
       border: var(--borde);
       transition: transform 0.3s ease, background 1s ease;
+      margin: 0 auto;
+      animation: slideIn 0.8s ease-out;
     }
     .container:hover {
-      transform: translateY(-2px);
+      transform: translateY(-2px) scale(1.01);
     }
 
     /* ==================== Botón de Modo Oscuro ==================== */
@@ -117,9 +153,21 @@
       font-size: 18px;
       color: #fff;
       z-index: 1000;
+      overflow: hidden;
+      position: relative;
     }
     .dark-mode-toggle:hover {
       transform: scale(1.1);
+      animation: glow 1s ease infinite;
+    }
+    .dark-mode-toggle:active::after {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: rgba(255,255,255,0.3);
+      border-radius: 50%;
+      animation: ripple 0.6s linear;
     }
 
     /* ==================== Títulos y Secciones ==================== */
@@ -133,6 +181,11 @@
       font-weight: 700;
       letter-spacing: -0.5px;
       text-shadow: var(--neon);
+      transition: text-shadow 0.3s ease;
+    }
+    h1:hover {
+      text-shadow: 0 0 20px var(--terracota);
+      animation: shake 0.5s;
     }
     h2 {
       margin: 10px 0;
@@ -145,7 +198,10 @@
       border-bottom: var(--borde);
       display: flex;
       flex-direction: column;
-      transition: all 0.3s ease;
+      transition: transform 0.3s ease;
+    }
+    .section:hover {
+      transform: scale(1.02);
     }
     .input-group {
       margin: 10px 0;
@@ -190,6 +246,10 @@
       background: rgba(255, 255, 255, 0.9);
       color: var(--texto);
     }
+    .input-group input[type="number"]:focus,
+    .input-group input[type="text"]:focus {
+      background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(255,255,255,1));
+    }
 
     /* ==================== Operación y Resultados ==================== */
     .operation-row {
@@ -201,6 +261,10 @@
       border-radius: 8px;
       padding: 15px;
       flex-wrap: wrap;
+      transition: box-shadow 0.3s ease;
+    }
+    .operation-row:hover {
+      box-shadow: 0 0 10px var(--terracota);
     }
     .left-column, .right-column {
       flex: 1;
@@ -236,12 +300,6 @@
     .input-group input[type="text"]:hover {
       border-color: var(--terracota);
       box-shadow: 0 4px 15px rgba(199, 121, 94, 0.15);
-    }
-    .input-group input[type="number"]:focus,
-    .input-group input[type="text"]:focus {
-      outline: none;
-      border-color: var(--terracota);
-      box-shadow: 0 4px 20px rgba(199, 121, 94, 0.25);
     }
     .sub-expenses {
       display: grid;
@@ -293,9 +351,6 @@
       margin: 6px auto 0;
       text-align: center;
     }
-    .custom-expense .expense-name:focus {
-      outline: none;
-    }
     .delete-btn {
       position: absolute;
       top: 4px;
@@ -323,10 +378,11 @@
       border-radius: 8px;
       font-size: 14px;
       cursor: pointer;
-      transition: background 0.3s ease;
+      transition: transform 0.3s ease, background 0.3s ease;
     }
     .btn-add-custom:hover {
-      background: #b15b47;
+      background: linear-gradient(135deg, var(--terracota), #f08c6e);
+      transform: scale(1.05);
     }
     .slider-container {
       margin: 15px 0;
@@ -360,6 +416,10 @@
       border-radius: 10px;
       margin: 15px 0;
       text-align: center;
+      transition: transform 0.3s ease;
+    }
+    .results:hover {
+      transform: scale(1.02);
     }
     .highlight {
       color: var(--terracota);
@@ -373,6 +433,11 @@
       color: var(--chocolate);
       padding-top: 15px;
       border-top: 1px solid var(--greige);
+      transition: transform 0.3s ease, color 0.3s ease;
+    }
+    footer p:hover {
+      color: var(--terracota);
+      transform: scale(1.05);
     }
     .insufficient {
       color: red;
@@ -386,6 +451,11 @@
     #expensesChart {
       width: 200px;
       height: 200px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    #expensesChart:hover {
+      transform: rotate(2deg);
+      box-shadow: 0 0 10px var(--terracota);
     }
     /* ==================== MODO OSCURO ==================== */
     body.dark-mode {
@@ -424,6 +494,57 @@
       color: var(--texto);
       border-top: 1px solid var(--greige);
     }
+
+    /* ==================== Media Queries ==================== */
+    @media (max-width: 600px) {
+      body {
+        padding: 5px;
+      }
+      .container {
+        padding: 15px 20px;
+        width: 95%;
+      }
+      h1 {
+        font-size: 24px;
+        padding-bottom: 10px;
+        margin-bottom: 10px;
+      }
+      h2 {
+        font-size: 18px;
+      }
+      .explanatory {
+        font-size: 10px;
+      }
+      .explanatory-title {
+        font-size: 12px;
+      }
+      .input-group label {
+        font-size: 14px;
+      }
+      .input-group.meta-total label {
+        font-size: 18px;
+      }
+      .input-group input[type="number"],
+      .input-group input[type="text"] {
+        width: 90%;
+        max-width: none;
+        font-size: 14px;
+      }
+      .profit-display .profit-value {
+        font-size: 2em;
+      }
+      input[type="range"] {
+        width: 100%;
+      }
+      #expensesChart {
+        width: 150px !important;
+        height: 150px !important;
+      }
+      .chart-container {
+        flex-direction: column;
+        gap: 20px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -431,6 +552,10 @@
   <button class="dark-mode-toggle" onclick="toggleDarkMode()">☀️</button>
   <div id="content" class="container">
     <h1>Calculadora de Metas y Gastos</h1>
+    <p class="description">
+      Esta calculadora te ayuda a planificar tus metas financieras y gestionar tus gastos mensuales de forma sencilla y efectiva. Con ella podrás estimar el tiempo necesario para alcanzar tus objetivos, identificar áreas de mejora y tomar decisiones informadas sobre tus finanzas.
+      <span class="signature">Con amor... Marie.</span>
+    </p>
 
     <!-- Sección Meta Total -->
     <div class="section">
@@ -550,7 +675,7 @@
     </div>
 
     <footer>
-      <p class="highlight">Recuerda, lo importante es ser constante. ¡Tú puedes!</p>
+      <p class="highlight">Recuerda que esto es solo una guía... ¡Úsala tantas veces quieras! Siempre puedes mejorar </p>
     </footer>
   </div>
 
