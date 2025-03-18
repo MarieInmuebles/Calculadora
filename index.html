@@ -90,7 +90,7 @@
       width: 95%;
       max-width: 600px; /* Aumentado para mayor comodidad en PC */
       padding: 20px 25px;
-      margin: 20px auto; /* Se centra en pantalla */
+      margin: 20px auto;
       backdrop-filter: blur(12px);
       border: var(--borde);
       transition: transform 0.3s ease, background 1s ease;
@@ -493,6 +493,10 @@
       .chart-container {
         flex-direction: column;
         gap: 20px;
+      }
+      /* Fuerza que los cuadros de gastos tengan la misma altura */
+      .sub-expenses > div, .custom-expense {
+        height: 120px;
       }
     }
   </style>
