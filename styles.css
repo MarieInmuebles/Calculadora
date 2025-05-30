@@ -1,0 +1,77 @@
+:root {
+  --primary-color: #C7795E;
+  --secondary-color: #6B4F4F;
+  --light-rose: #E8C8C8;
+  --neutral: #D4C8B8;
+  --shadow: 0 6px 24px rgba(107,79,79,0.15);
+  --border-color: 1px solid rgba(107,79,79,0.15);
+  --gradient-bg: linear-gradient(135deg,#F5EEE6,#E8D7C1,#F5EEE6);
+  --background: rgba(255,255,255,0.95);
+  --text-color: #6B4F4F;
+  --hover-shadow: 0 4px 15px rgba(199,121,94,0.15);
+  --transition-speed: 0.3s;
+  --dark-gradient: linear-gradient(135deg,#3E2723,#1C2833,#3E2723);
+}
+
+body {
+  margin:0; padding:15px;
+  background: var(--gradient-bg);
+  background-size:400% 400%;
+  animation:gradientAnimation 15s ease infinite, fadeInUp .6s ease-out;
+  min-height:100vh;
+  display:flex; justify-content:center; align-items:center;
+  color: var(--text-color);
+  font-family:'Poppins',sans-serif;
+  transition: background var(--transition-speed);
+}
+
+@keyframes gradientAnimation{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+@keyframes fadeInUp{0%{opacity:0;transform:translateY(20px)}100%{opacity:1;transform:translateY(0)}}
+
+/* Detalles plegables */
+details{background:var(--background);border:var(--border-color);margin-bottom:1rem;border-radius:8px;box-shadow:var(--shadow);transition:all var(--transition-speed)}
+details > summary{cursor:pointer;list-style:none;padding:1rem;font-size:1.25rem;font-weight:700;color:var(--secondary-color);position:relative}
+details > summary::-webkit-details-marker{display:none}
+details > summary::after{content:"▾";position:absolute;right:1rem;transition:transform var(--transition-speed)}
+details[open] > summary::after{transform:rotate(180deg)}
+
+.container{width:95%;max-width:600px;padding:2rem;border-radius:16px;backdrop-filter:blur(12px)}
+header h1{text-align:center;font-size:2rem;color:var(--secondary-color);border-bottom:2px solid var(--primary-color);padding-bottom:.5rem;margin-bottom:1rem}
+
+.input-group{margin:1rem 0;text-align:center}
+.input-group label{display:block;margin-bottom:.5rem;font-weight:600;color:var(--secondary-color)}
+.input-group input[type=number],.input-group input[type=text]{width:80%;max-width:200px;padding:.75rem;border:2px solid var(--neutral);border-radius:8px;transition:all var(--transition-speed);background:var(--background);color:var(--text-color)}
+.input-group input:hover{border-color:var(--primary-color);box-shadow:var(--hover-shadow)}
+.input-group input:focus{outline:none;border-color:var(--primary-color);box-shadow:0 4px 20px rgba(199,121,94,0.25)}
+
+.operation-row{display:flex;flex-wrap:wrap;gap:1rem;border:1px solid var(--neutral);border-radius:8px;padding:1rem}
+.left-column,.right-column{flex:1;display:flex;flex-direction:column;align-items:center}
+.profit-value{font-size:2rem;color:var(--primary-color);margin:0;transition:transform .3s}
+.profit-display.pulse .profit-value{animation:pulse .3s}
+
+@keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.05)}100%{transform:scale(1)}}
+
+.slider-container{margin:1rem 0;text-align:center}
+input[type=range]{-webkit-appearance:none;width:90%;height:8px;background:var(--neutral);border-radius:8px}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;background:var(--primary-color);border-radius:50%;cursor:pointer;box-shadow:0 4px 10px rgba(199,121,94,0.3)}
+
+.results{background:var(--light-rose);padding:1rem;border-radius:8px;text-align:center}
+.highlight{color:var(--primary-color);font-weight:700}
+
+.chart-container{display:flex;justify-content:center;align-items:center;gap:2rem}
+#expensesChart{max-width:200px}
+
+.dark-mode-toggle{position:fixed;top:1rem;right:1rem;background:var(--primary-color);color:#fff;border:none;border-radius:50%;width:3rem;height:3rem;font-size:1.5rem;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,0.2);transition:transform .3s}
+.dark-mode-toggle:hover{transform:scale(1.1)}
+
+body.dark-mode {
+  --gradient-bg: var(--dark-gradient);
+  --background: rgba(62,39,35,0.95);
+  --text-color:#ECF0F1;
+  --secondary-bg:#542e25;
+  --secondary-color:#ECF0F1;
+  --primary-color:#E67E22;
+  --neutral:#566573;
+  --shadow:0 6px 24px rgba(0,0,0,0.25);
+  --border-color:1px solid rgba(255,255,255,0.1);
+}
